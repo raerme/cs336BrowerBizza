@@ -1,0 +1,29 @@
+package model;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+
+public class Authenticator {
+	
+	public String loginAuthenticator(String username, String password) {
+		try {
+			String url = "";
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection(url, "", "");
+			Statement stmt = con.createStatement();
+			String str = "SELECT * FROM User WHERE Username = '" + username + "' AND Password = '" + password + "';";
+			ResultSet result = stmt.executeQuery(str);
+			if(result.isBeforeFirst() == false) {
+				con.close();
+				return "fail";
+			}
+		}
+		catch (Exception e) {
+			return "fail";
+		}
+	}
+
+}
